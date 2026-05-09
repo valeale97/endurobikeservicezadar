@@ -11,7 +11,7 @@
     // Google reCAPTCHA v2 (Checkbox) TEST key so the widget renders out-of-the-box.
     // Replace with your real site key when you create it in Google reCAPTCHA.
     RECAPTCHA_SITE_KEY: '6Lesj-EsAAAAAEkGv6H-RWPLsEV0Wy-U-l99Kk1X',
-    APPS_SCRIPT_WEBAPP_URL: 'https://recaptcha-bk.bornadji1108.workers.dev'
+    APPS_SCRIPT_WEBAPP_URL: 'https://enduro-bike-service-contact-form.vgwebpages.workers.dev'
   };
 
   const $ = (sel, root=document) => root.querySelector(sel);
