@@ -19,7 +19,7 @@
   --glow:#b51224;
   --glow2:#6f0a16;
   --danger:#ff5b5b;
-  --ok:#b51224;
+  --ok:#22c55e;
   --nav-height: 60px;
   --radius:18px;
   --radius-sm:12px;
@@ -752,7 +752,11 @@ input,select,textarea{
 .form__row{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:.8rem}
 .form__status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
 .form-status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
-.form-status.success{border-color:rgba(181,18,36,.35);color:var(--ok)}
+.form-status.success{
+  border-color:rgba(34,197,94,.45);
+  color:var(--ok);
+  background:rgba(34,197,94,.08);
+}
 .form-status.error{border-color:rgba(255,91,91,.35);color:var(--danger)}
 .form-status.info{border-color:rgba(181,18,36,.28);color:var(--text)}
 .form-status.warn{border-color:rgba(255,204,91,.28);color:var(--text)}

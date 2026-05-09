@@ -71,7 +71,7 @@
     };
 
     const src = pick(site.heroVideo);
-    const poster = site.heroPoster || '';
+    // const poster = site.heroPoster || '';
     if (!src) return;
 
     // Clear any fallback markup
@@ -98,7 +98,7 @@
     video.preload = 'auto';
     video.setAttribute('playsinline', '');
     video.setAttribute('muted', '');
-    video.setAttribute('poster', poster);
+    // video.setAttribute('poster', poster);
     const source = document.createElement('source');
     source.src = src;
     source.type = 'video/mp4';

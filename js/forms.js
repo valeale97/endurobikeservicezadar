@@ -187,8 +187,8 @@
           status,
           'success',
           lang === 'hr'
-            ? 'Poruka poslana! Javit ćemo se uskoro.'
-            : 'Message sent! We’ll get back soon.'
+            ? 'Poruka je poslana.'
+            : 'Message sent.'
         );
 
         form.reset();

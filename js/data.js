@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const id = src.split(':')[1];
       host.innerHTML = '<iframe src="https://player.vimeo.com/video/' + id + '?background=1&autoplay=1&loop=1&muted=1" allow="autoplay; fullscreen; picture-in-picture" aria-hidden="true"></iframe>';
     } else {
-      host.innerHTML = '<video autoplay muted loop playsinline poster="' + esc(siteData.site.heroPoster || '') + '"><source src="' + esc(src) + '" type="video/mp4"></video>';
+      host.innerHTML = '<video autoplay muted loop playsinline><source src="' + esc(src) + '" type="video/mp4"></video>';
     }
   }
 
