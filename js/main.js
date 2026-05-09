@@ -236,41 +236,145 @@
   normalizeContactNavLinks();
   bindSamePageAnchors();
 
+
+  // Do not highlight any menu item automatically on page load or scroll.
+  // A menu item gets highlighted only after the user clicks an in-page nav link.
   // ----------------------------
   // Active link state
   // ----------------------------
-  // Do not highlight any menu item automatically on page load or scroll.
-  // A menu item gets highlighted only after the user clicks an in-page nav link.
+  const sectionIds = ['about', 'services', 'location', 'gallery', 'contact'];
+  let observedSections = [];
+  let activeNavRaf = 0;
+
+  function isDesktopNav(){
+    return window.matchMedia('(min-width: 861px)').matches;
+  }
+
   function clearActiveNav(){
     document.querySelectorAll('.nav__links a').forEach((a) => a.classList.remove('is-active'));
   }
 
-  function markClickedNavLink(a){
-    clearActiveNav();
-    // Do not keep any menu option highlighted after click.
-    // Browser :active/:hover still gives immediate click feedback.
+  function setActiveNav(id){
+    if (!isDesktopNav()) {
+      clearActiveNav();
+      return false;
+    }
+
+    let matched = false;
+
+    document.querySelectorAll('.nav__links a').forEach((a) => {
+      const active = getAnchorId(a.getAttribute('href') || '') === id;
+      a.classList.toggle('is-active', active);
+      if (active) matched = true;
+    });
+
+    return matched;
   }
 
-  if (links) {
-    links.addEventListener('click', (e) => {
-      const a = e.target.closest('a');
-      if (!a) return;
-      markClickedNavLink(a);
-      setOpen(false);
+  function getObservedSections(){
+    return sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+  }
+
+  function getNavOffset(){
+    const raw = getComputedStyle(document.documentElement).getPropertyValue('--nav-offset');
+    const parsed = parseFloat(raw);
+    return Number.isFinite(parsed) ? parsed : 86;
+  }
+
+  function getActiveSectionId(){
+    if (!observedSections.length) return '';
+
+    const viewportH = window.innerHeight || document.documentElement.clientHeight || 0;
+    const probe = Math.max(getNavOffset() + 28, viewportH * 0.34);
+    const nearBottom = (window.scrollY + viewportH) >= (document.documentElement.scrollHeight - 24);
+
+    let previous = null;
+    let upcoming = null;
+
+    for (const sec of observedSections) {
+      const rect = sec.getBoundingClientRect();
+
+      if (rect.top <= probe && rect.bottom >= probe) return sec.id;
+
+      if (rect.top <= probe) previous = sec;
+      else if (!upcoming) upcoming = sec;
+    }
+
+    if (nearBottom) {
+      const contact = document.getElementById('contact');
+      if (contact) return 'contact';
+    }
+
+    if (previous) return previous.id;
+    if (upcoming) return upcoming.id;
+
+    return observedSections[0].id;
+  }
+
+  function refreshActiveNav(){
+    if (!isDesktopNav()) {
+      clearActiveNav();
+      return;
+    }
+
+    const id = getActiveSectionId();
+
+    if (id) setActiveNav(id);
+    else clearActiveNav();
+  }
+
+  function requestActiveNavRefresh(){
+    if (activeNavRaf) return;
+
+    activeNavRaf = window.requestAnimationFrame(() => {
+      activeNavRaf = 0;
+      refreshActiveNav();
     });
   }
 
-  clearActiveNav();
+  function initSectionSpy(){
+    observedSections = getObservedSections();
+
+    if (!isDesktopNav()) {
+      clearActiveNav();
+      return;
+    }
+
+    const hashId = window.location.hash ? window.location.hash.slice(1) : '';
+
+    if (hashId && document.getElementById(hashId)) {
+      setActiveNav(hashId);
+    } else {
+      requestActiveNavRefresh();
+    }
+  }
+
+  initSectionSpy();
+
+  window.addEventListener('scroll', requestActiveNavRefresh, { passive: true });
+  window.addEventListener('resize', () => {
+    initSectionSpy();
+    requestActiveNavRefresh();
+  });
+  window.addEventListener('hashchange', requestActiveNavRefresh);
 
   document.addEventListener('enduro:includes:done', () => {
     bindSamePageAnchors();
-    clearActiveNav();
+    initSectionSpy();
+
     const hashId = window.location.hash ? window.location.hash.slice(1) : '';
+
     if (hashId) {
       const target = document.getElementById(hashId);
-      if (target) setTimeout(() => {
-        target.scrollIntoView({ behavior: 'auto', block: 'start' });
-      }, 50);
+
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'auto', block: 'start' });
+          requestActiveNavRefresh();
+        }, 50);
+      }
     }
   });
 
