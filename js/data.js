@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     },
     heroVideo: { en: "/assets/video/hero.mp4", hr: "/assets/video/hero.mp4" },
-    heroPoster: "/assets/img/hero-poster.png"
+    heroPoster: ""
   },
   home: {
     servicesOrder: ["maintenance", "wheels", "brakes", "steering", "drivetrain", "other"],
