@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     domain: "https://www.enduro-bike-service.com",
     assets: {
       logo: "/assets/img/logo.png",
-      socialImage: "/assets/img/logo.png"
+      socialImage: "/assets/img/profile.png"
     },
     seo: {
       home: {

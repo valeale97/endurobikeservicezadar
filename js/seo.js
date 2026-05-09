@@ -8,7 +8,7 @@
   const domain = (site.domain || '').replace(/\/$/, '');
   const brand = site.brand || 'Enduro Bike Service';
   const tabTitle = 'Enduro Bike Service Zadar';
-  const socialImage = ((site.assets && site.assets.socialImage) || '/assets/img/logo.jpg');
+  const socialImage = ((site.assets && site.assets.socialImage) || '/assets/img/profile.png');
   const logo = ((site.assets && site.assets.logo) || '/assets/img/logo.svg');
 
   function getLang() {
