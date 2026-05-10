@@ -2186,3 +2186,55 @@ main.wrap {
     stroke-dashoffset:0 !important;
   }
 }
+
+/* Safe Google Maps fallback + hidden failed iframe (2026-05-10) */
+.locationMapWrap{
+  position:relative;
+}
+
+.locationMapWrap .locationMap{
+  opacity:0;
+  transition:opacity .25s ease;
+}
+
+.locationMapWrap.is-map-loaded .locationMap{
+  opacity:1;
+}
+
+.mapFallback{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.9rem;
+  padding:1.2rem;
+  text-align:center;
+  background:
+    radial-gradient(520px 280px at 50% 20%, rgba(181,18,36,.18), transparent 65%),
+    rgba(7,5,6,.96);
+  color:var(--text);
+}
+
+.mapFallback[hidden]{
+  display:none !important;
+}
+
+.mapFallback p{
+  margin:0;
+  color:var(--muted);
+  font-weight:700;
+  line-height:1.4;
+}
+
+@media (max-width:640px){
+  .mapFallback{
+    padding:1rem;
+  }
+
+  .mapFallback .btn{
+    min-width:min(100%, 210px);
+  }
+}

@@ -625,3 +625,54 @@
   document.addEventListener('enduro:includes:done', initCookiePrefs);
 
 })();
+
+// Safe Google Maps loader.
+// Prevents Instagram / in-app browsers from showing ugly Google iframe error screens.
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.js-mapWrap').forEach((wrap) => {
+    const frame = wrap.querySelector('.js-mapFrame');
+    const fallback = wrap.querySelector('.js-mapFallback');
+
+    if (!frame || !fallback) return;
+
+    const userAgent = navigator.userAgent || '';
+    const likelyBlockedBrowser = /Instagram|FBAN|FBAV|FB_IAB|Line|wv/i.test(userAgent);
+
+    function showFallback() {
+      frame.removeAttribute('src');
+      frame.style.display = 'none';
+      fallback.hidden = false;
+      wrap.classList.remove('is-map-loaded');
+    }
+
+    function showMap() {
+      fallback.hidden = true;
+      frame.style.display = '';
+      wrap.classList.add('is-map-loaded');
+    }
+
+    if (likelyBlockedBrowser) {
+      showFallback();
+      return;
+    }
+
+    const mapSrc = frame.dataset.mapSrc;
+    if (!mapSrc) {
+      showFallback();
+      return;
+    }
+
+    let loaded = false;
+
+    frame.addEventListener('load', () => {
+      loaded = true;
+      showMap();
+    });
+
+    frame.src = mapSrc;
+
+    setTimeout(() => {
+      if (!loaded) showFallback();
+    }, 3500);
+  });
+});
