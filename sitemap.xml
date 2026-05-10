@@ -153,22 +153,4 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.enduro-bike-service.com/en/services/other/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.enduro-bike-service.com/hr/usluge/ostalo/" />
   </url>
-  <url>
-    <loc>https://www.enduro-bike-service.com/hr/uspjeh/</loc>
-    <lastmod>2026-04-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="hr" href="https://www.enduro-bike-service.com/hr/uspjeh/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.enduro-bike-service.com/en/success/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.enduro-bike-service.com/hr/uspjeh/" />
-  </url>
-  <url>
-    <loc>https://www.enduro-bike-service.com/en/success/</loc>
-    <lastmod>2026-04-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="hr" href="https://www.enduro-bike-service.com/hr/uspjeh/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.enduro-bike-service.com/en/success/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.enduro-bike-service.com/hr/uspjeh/" />
-  </url>
 </urlset>

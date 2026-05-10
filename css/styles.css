@@ -749,19 +749,6 @@ Contact layout + form styling for current markup
 }
 
 
-/* .form__row{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:.8rem}
-.form__status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
-.form-status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
-.form-status.success{
-  border-color:rgba(34,197,94,.45);
-  color:var(--ok);
-  background:rgba(34,197,94,.08);
-}
-.form-status.error{border-color:rgba(255,91,91,.35);color:var(--danger)}
-.form-status.info{border-color:rgba(181,18,36,.28);color:var(--text)}
-.form-status.warn{border-color:rgba(255,204,91,.28);color:var(--text)}
-.fineprint{color:var(--muted);font-size:.9rem;margin:.8rem 0 0} */
-
 .form__row{
   display:flex;
   flex-wrap:wrap;
@@ -1712,4 +1699,303 @@ main.wrap {
   background-repeat:no-repeat;
   background-position:right 1.15rem center;
   background-size:14px 14px;
+}
+
+/* User-requested final refinements (2026-05-10)
+   Mobile hero height, no typing flash, bigger mobile text, inline contact states, and map fallback. */
+.typing{
+  visibility:hidden;
+  min-height:1.05em;
+}
+.typing.active{
+  visibility:visible;
+}
+
+@media (max-width: 768px){
+  .home .hero{
+    min-height:calc(100svh + 18px) !important;
+  }
+  .home .hero__media{
+    inset:0 0 -24px 0 !important;
+    height:auto !important;
+  }
+  .home .hero__media > video,
+  .home .hero__media > iframe{
+    min-height:calc(100% + 24px) !important;
+  }
+  .home .hero__content{
+    padding-bottom:4rem !important;
+  }
+  .home #about.section{
+    margin-top:0 !important;
+    padding-top:2.65rem !important;
+  }
+
+  .about__description,
+  .latest__descript,
+  .galleryFeature p,
+  .gallery .section__header p,
+  .gallery .section__desc{
+    font-size:clamp(13.5px, 3.7vw, 15.5px) !important;
+    line-height:1.65 !important;
+  }
+}
+
+.form-status{
+  width:100%;
+  text-align:center !important;
+}
+.formStatusCall{
+  color:var(--text);
+  font-weight:800;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.formState{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.72rem;
+  width:100%;
+  min-height:54px;
+}
+.formState__text{
+  display:inline-block;
+  line-height:1.35;
+}
+.formState__circle{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:999px;
+  font-size:1.35rem;
+  font-weight:900;
+  line-height:1;
+}
+.formState--success .formState__circle{
+  color:#fff;
+  background:var(--ok);
+  box-shadow:0 0 0 6px rgba(34,197,94,.12), 0 0 28px rgba(34,197,94,.32);
+}
+.formState--error .formState__circle{
+  color:#fff;
+  background:var(--danger);
+  box-shadow:0 0 0 6px rgba(255,91,91,.12), 0 0 28px rgba(255,91,91,.28);
+}
+.formState__dots{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-width:48px;
+}
+.formState__dots span{
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  background:var(--glow);
+  box-shadow:0 0 14px rgba(181,18,36,.5);
+  animation:enduroFormDots .7s infinite alternate;
+}
+.formState__dots span:nth-child(2){animation-delay:.16s}
+.formState__dots span:nth-child(3){animation-delay:.32s}
+@keyframes enduroFormDots{
+  from{transform:translateY(0);opacity:.45}
+  to{transform:translateY(-7px);opacity:1}
+}
+.form button[disabled]{
+  opacity:.72;
+  cursor:wait;
+}
+
+.locationMapWrap{
+  position:relative;
+}
+
+
+/* Final mobile/location refinements (2026-05-10) */
+.hoursList__closed,
+.hoursList__row span.hoursList__closed{
+  color:var(--danger) !important;
+  font-weight:800;
+}
+
+
+/* Tablet hero/about gap fix + Google map cleanup (2026-05-10) */
+@media (min-width: 700px) and (max-width: 1024px){
+  .home .hero{
+    min-height:calc(100svh + 34px) !important;
+    margin-bottom:0 !important;
+    border-bottom:0 !important;
+  }
+  .home .hero__media{
+    inset:0 0 -38px 0 !important;
+    height:auto !important;
+  }
+  .home .hero__media > video,
+  .home .hero__media > iframe{
+    height:calc(100% + 38px) !important;
+    min-height:calc(100% + 38px) !important;
+    object-fit:cover !important;
+  }
+  .home .hero__content{
+    padding-bottom:4.2rem !important;
+  }
+  .home #about.section{
+    margin-top:-1px !important;
+    padding-top:1.25rem !important;
+  }
+}
+
+/* Final pass (2026-05-10): remove tablet hero/About seam and compact mobile message box */
+@media (min-width: 700px) and (max-width: 1180px){
+  .home .hero{
+    min-height:calc(100svh - 22px) !important;
+    margin-bottom:-1px !important;
+    border-bottom:0 !important;
+  }
+
+  .home .hero__media{
+    inset:0 !important;
+    height:100% !important;
+  }
+
+  .home .hero__media > video{
+    width:100% !important;
+    height:100% !important;
+    min-height:100% !important;
+    object-fit:cover !important;
+  }
+
+  .home #about.section{
+    margin-top:-34px !important;
+    padding-top:.95rem !important;
+    position:relative !important;
+    z-index:2 !important;
+  }
+}
+
+@media (max-width: 640px){
+  .form textarea{
+    min-height:88px !important;
+    height:88px !important;
+    line-height:1.45 !important;
+  }
+}
+
+/* Final requested fixes (2026-05-10, v3): tablet border alignment + compact mobile form status */
+@media (min-width: 700px) and (max-width: 1180px){
+  .home .hero{
+    height:calc(100svh - 56px) !important;
+    min-height:560px !important;
+    margin-bottom:0 !important;
+    border-bottom:0 !important;
+    overflow:hidden !important;
+  }
+
+  .home .hero__media{
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+  }
+
+  .home .hero__media > video,
+  .home .hero__media > iframe{
+    width:100% !important;
+    height:100% !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    object-fit:cover !important;
+  }
+
+  .home #about.section{
+    margin-top:0 !important;
+    padding-top:1.45rem !important;
+    position:relative !important;
+    z-index:1 !important;
+  }
+}
+
+.form input[aria-invalid="true"],
+.form select[aria-invalid="true"],
+.form textarea[aria-invalid="true"]{
+  border-color:rgba(255,91,91,.72) !important;
+  box-shadow:0 0 0 3px rgba(255,91,91,.12) !important;
+}
+
+@media (max-width: 640px){
+  .form-status,
+  .form__status{
+    padding:.55rem .65rem !important;
+    border-radius:12px !important;
+    font-size:.88rem !important;
+    line-height:1.35 !important;
+  }
+
+  .formState{
+    min-height:38px !important;
+    gap:.5rem !important;
+  }
+
+  .formState__text{
+    line-height:1.32 !important;
+  }
+
+  .formState__circle{
+    width:24px !important;
+    height:24px !important;
+    flex-basis:24px !important;
+    font-size:1rem !important;
+    box-shadow:none !important;
+  }
+
+  .formState__dots{
+    min-width:34px !important;
+    gap:5px !important;
+  }
+
+  .formState__dots span{
+    width:6px !important;
+    height:6px !important;
+  }
+
+  .formStatusCall{
+    white-space:nowrap !important;
+  }
+}
+
+/* Make mobile error message same visual width as send button */
+@media (max-width: 640px){
+  .form-status.error,
+  .form__status.error{
+    width: min(100%, 220px) !important;
+    margin: .8rem auto 0 !important;
+    padding: .55rem .65rem !important;
+    border-radius: 14px !important;
+    font-size: .82rem !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+  }
+
+  .form-status.error .formState,
+  .form__status.error .formState{
+    min-height: 38px !important;
+    gap: .45rem !important;
+  }
+
+  .form-status.error .formState__circle,
+  .form__status.error .formState__circle{
+    width: 22px !important;
+    height: 22px !important;
+    flex-basis: 22px !important;
+    font-size: .95rem !important;
+    box-shadow: none !important;
+  }
+
+  .form-status.error .formState__text,
+  .form__status.error .formState__text{
+    line-height: 1.25 !important;
+  }
 }

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     element.textContent = "";
     element.classList.add("active");
     let wordIndex = 0, charIndex = 0, isDeleting = false;
-    const typingSpeed = 72, deletingSpeed = 40, delayBetweenWords = 1150;
+    const typingSpeed = 96, deletingSpeed = 54, delayBetweenWords = 1450;
     function typeEffect() {
       const currentWord = words[wordIndex];
       if (!currentWord) return;
@@ -72,12 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
           xDefault: "/hr/cookies.html",
           title: { en: "Cookie Policy | Enduro Bike Service", hr: "Pravila o kolačićima | Enduro Bike Service" },
           description: { en: "Cookie policy for Enduro Bike Service.", hr: "Pravila o kolačićima za Enduro Bike Service." }
-        },
-        success: {
-          path: { en: "/en/success/", hr: "/hr/uspjeh/" },
-          xDefault: "/hr/uspjeh/",
-          title: { en: "Message sent | Enduro Bike Service", hr: "Poruka poslana | Enduro Bike Service" },
-          description: { en: "Your message has been sent to Enduro Bike Service.", hr: "Vaša poruka je poslana servisu Enduro Bike Service." }
         }
       }
     },
@@ -93,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
       searchPlaceholder: "Search services in English or Croatian…",
       searchEmpty: "No services match your search yet.",
       searchTitle: "Find a service fast",
-      searchHint: "Search by service name, symptom, or bike part. Example: brake bleed, kočnice, fork, chain."
+      searchHint: "Search by service name, problem, or bike part. Example: brake bleed, kočnice, fork, chain."
     }, hr: {
       servicesOverlay: "Otvori",
       categoryAria: "Otvori kategoriju usluge",
@@ -106,8 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
   },
   about: {
     title: { en: "", hr: "" },
-    body: { en: "Enduro Bike Service started operating in 2021 and has since been providing fast, reliable, and professional service with many satisfied clients. The workshop specializes in maintenance, repairs, and adjustments for MTB, enduro, trail, and e-bike bicycles, while also offering service for regular bikes used for everyday riding, recreation, and city commuting. Services include general bike servicing, wheel work, brakes, cockpit components, drivetrain repairs, suspension servicing, and other workshop tasks. For e-bikes, the service focuses on the mechanical parts of the bicycle, including brakes, wheels, drivetrain, cockpit components, bearings, suspension, and other parts that require regular maintenance or repair. The goal is to make every bike safe, reliable, and ready to ride.", 
-      hr: "Enduro Bike Service počeo je s radom 2021. godine te od tada pruža brzu, pouzdanu i profesionalnu uslugu s velikim brojem zadovoljnih klijenata. Servis je specijaliziran za održavanje, popravke i podešavanje MTB, enduro, trail i e-bike bicikala, ali također pruža usluge servisa za klasične bicikle za svakodnevnu vožnju, rekreaciju i gradsku upotrebu. U ponudi su generalni servisi, radovi na kotačima, kočnicama, upravljačkom dijelu, pogonskom dijelu, suspenzijama te ostali radionički poslovi. Kod e-bike bicikala servis se odnosi na mehaničke dijelove bicikla, uključujući kočnice, kotače, prijenos, upravljački dio, ležajeve, suspenzije i ostale komponente koje zahtijevaju redovito održavanje ili popravak. Cilj servisa je da svaki bicikl bude siguran, pouzdan i spreman za vožnju." },
+    body: { en: "Enduro Bike Service has been operating in Zadar since 2021, providing fast, reliable and professional service for MTB, enduro, trail, e-bike and everyday bicycles. The workshop handles maintenance, repairs and precise adjustments, including general service, wheels, brakes, drivetrain, cockpit parts, bearings and suspension. For e-bikes, the focus is on mechanical components that need regular care, so every bike leaves safe, smooth and ready to ride.", 
+      hr: "Enduro Bike Service djeluje u Zadru od 2021. godine i pruža brzu, pouzdanu i profesionalnu uslugu za MTB, enduro, trail, e-bike i klasične bicikle. Servis obuhvaća održavanje, popravke i precizna podešavanja, uključujući generalni servis, kotače, kočnice, pogon, upravljački dio, ležajeve i suspenzije. Kod e-bike bicikala naglasak je na mehaničkim komponentama koje trebaju redovitu brigu, kako bi svaki bicikl bio siguran, ispravan i spreman za vožnju." },
     bullets: { en: [], hr: [] }
   },
   services: {

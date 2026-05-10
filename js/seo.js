@@ -125,7 +125,6 @@
 
     if (normalized === '/en/privacy.html' || normalized === '/hr/privacy.html') return buildLegalSeo('privacy', lang);
     if (normalized === '/en/cookies.html' || normalized === '/hr/cookies.html') return buildLegalSeo('cookies', lang);
-    if (normalized === '/en/success/' || normalized === '/hr/uspjeh/') return buildLegalSeo('success', lang);
 
     return null;
   }
