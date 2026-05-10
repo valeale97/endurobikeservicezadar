@@ -749,6 +749,19 @@ Contact layout + form styling for current markup
 }
 
 
+/* .form__row{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:.8rem}
+.form__status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
+.form-status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
+.form-status.success{
+  border-color:rgba(34,197,94,.45);
+  color:var(--ok);
+  background:rgba(34,197,94,.08);
+}
+.form-status.error{border-color:rgba(255,91,91,.35);color:var(--danger)}
+.form-status.info{border-color:rgba(181,18,36,.28);color:var(--text)}
+.form-status.warn{border-color:rgba(255,204,91,.28);color:var(--text)}
+.fineprint{color:var(--muted);font-size:.9rem;margin:.8rem 0 0} */
+
 .form__row{
   display:flex;
   flex-wrap:wrap;
@@ -1966,36 +1979,210 @@ main.wrap {
   }
 }
 
-/* Make mobile error message same visual width as send button */
+/* Full-screen contact submit overlay (2026-05-10)
+   Sending uses a blue MTB loading state; success draws the green circle/check. */
+.submitOverlay{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  padding:1rem;
+}
+.submitOverlay[hidden]{
+  display:none !important;
+}
+.submitOverlay__backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(4,4,4,.78);
+  backdrop-filter:blur(8px);
+}
+.submitOverlay__panel{
+  position:relative;
+  z-index:1;
+  width:min(92vw, 360px);
+  padding:1.35rem 1.15rem 1.1rem;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(12,15,22,.88);
+  box-shadow:0 24px 70px rgba(0,0,0,.5);
+}
+.submitOverlay__state{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.95rem;
+  text-align:center;
+}
+.submitOverlay[data-state="sending"] .submitOverlay__state--sending,
+.submitOverlay[data-state="success"] .submitOverlay__state--success{
+  display:flex;
+}
+.submitOverlay__ring{
+  position:relative;
+  width:132px;
+  height:132px;
+}
+.submitOverlay__svg{
+  width:132px;
+  height:132px;
+  display:block;
+}
+.submitOverlay__track,
+.submitOverlay__value{
+  fill:none;
+  stroke-width:7;
+  transform-origin:60px 60px;
+}
+.submitOverlay__track{
+  stroke:rgba(255,255,255,.13);
+}
+.submitOverlay__value{
+  stroke-linecap:round;
+}
+
+/* Sending state */
+.submitOverlay__value--sending{
+  stroke:#3b82f6;
+  stroke-dasharray:110 204;
+  animation:submitOverlaySpin 1.35s linear infinite;
+  filter:drop-shadow(0 0 14px rgba(59,130,246,.35));
+}
+.submitOverlay__icon{
+  position:absolute;
+  inset:50% auto auto 50%;
+  transform:translate(-50%,-50%);
+  width:54px;
+  height:54px;
+  color:#60a5fa;
+}
+.submitOverlay__icon svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.submitOverlay__dots{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.submitOverlay__dots span{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:#3b82f6;
+  box-shadow:0 0 14px rgba(59,130,246,.45);
+  animation:submitOverlayDots .65s infinite alternate;
+}
+.submitOverlay__dots span:nth-child(2){animation-delay:.15s}
+.submitOverlay__dots span:nth-child(3){animation-delay:.3s}
+
+/* Success state */
+.submitOverlay__track--success{
+  stroke:rgba(99,212,70,.18);
+}
+.submitOverlay__value--success{
+  stroke:#63d446;
+  stroke-dasharray:314.16;
+  stroke-dashoffset:314.16;
+  transform:rotate(-90deg);
+  filter:drop-shadow(0 0 16px rgba(99,212,70,.28));
+}
+.submitOverlay__check{
+  fill:none;
+  stroke:#63d446;
+  stroke-width:8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:78;
+  stroke-dashoffset:78;
+  filter:drop-shadow(0 0 10px rgba(99,212,70,.18));
+}
+.submitOverlay.play-success .submitOverlay__value--success{
+  animation:submitOverlayCircleDraw 1.05s ease forwards;
+}
+.submitOverlay.play-success .submitOverlay__check{
+  animation:submitOverlayCheckDraw .5s ease .78s forwards;
+}
+.submitOverlay__text{
+  margin:0;
+  color:var(--text);
+  font-weight:700;
+  font-size:1rem;
+  line-height:1.35;
+}
+
+@keyframes submitOverlaySpin{
+  from{transform:rotate(-90deg)}
+  to{transform:rotate(270deg)}
+}
+@keyframes submitOverlayDots{
+  from{transform:translateY(0);opacity:.45}
+  to{transform:translateY(-7px);opacity:1}
+}
+@keyframes submitOverlayCircleDraw{
+  from{stroke-dashoffset:314.16}
+  to{stroke-dashoffset:0}
+}
+@keyframes submitOverlayCheckDraw{
+  from{stroke-dashoffset:78}
+  to{stroke-dashoffset:0}
+}
+
 @media (max-width: 640px){
-  .form-status.error,
-  .form__status.error{
-    width: min(100%, 220px) !important;
-    margin: .8rem auto 0 !important;
-    padding: .55rem .65rem !important;
-    border-radius: 14px !important;
-    font-size: .82rem !important;
-    line-height: 1.25 !important;
-    text-align: center !important;
+  .submitOverlay__panel{
+    width:min(90vw, 300px);
+    padding:1.05rem .95rem .9rem;
+    border-radius:22px;
   }
-
-  .form-status.error .formState,
-  .form__status.error .formState{
-    min-height: 38px !important;
-    gap: .45rem !important;
+  .submitOverlay__ring,
+  .submitOverlay__svg{
+    width:104px;
+    height:104px;
   }
-
-  .form-status.error .formState__circle,
-  .form__status.error .formState__circle{
-    width: 22px !important;
-    height: 22px !important;
-    flex-basis: 22px !important;
-    font-size: .95rem !important;
-    box-shadow: none !important;
+  .submitOverlay__icon{
+    width:44px;
+    height:44px;
   }
+  .submitOverlay__dots{
+    gap:7px;
+  }
+  .submitOverlay__dots span{
+    width:8px;
+    height:8px;
+  }
+  .submitOverlay__text{
+    font-size:.92rem;
+  }
+}
 
-  .form-status.error .formState__text,
-  .form__status.error .formState__text{
-    line-height: 1.25 !important;
+@media (max-width: 360px){
+  .submitOverlay__panel{
+    width:min(92vw, 280px);
+  }
+  .submitOverlay__ring,
+  .submitOverlay__svg{
+    width:96px;
+    height:96px;
+  }
+  .submitOverlay__icon{
+    width:40px;
+    height:40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .submitOverlay__value--sending,
+  .submitOverlay__dots span,
+  .submitOverlay.play-success .submitOverlay__value--success,
+  .submitOverlay.play-success .submitOverlay__check{
+    animation:none !important;
+  }
+  .submitOverlay.play-success .submitOverlay__value--success,
+  .submitOverlay.play-success .submitOverlay__check{
+    stroke-dashoffset:0 !important;
   }
 }

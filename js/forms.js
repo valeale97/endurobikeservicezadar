@@ -37,6 +37,92 @@
     if (elapsed < minimumMs) await delay(minimumMs - elapsed);
   }
 
+
+  function ensureSubmitOverlay(lang){
+    let overlay = document.getElementById('submitOverlay');
+    const hr = isHr(lang || document.documentElement.lang || document.body.dataset.lang || 'en');
+
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'submitOverlay';
+      overlay.id = 'submitOverlay';
+      overlay.hidden = true;
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.innerHTML =
+        '<div class="submitOverlay__backdrop"></div>' +
+        '<div class="submitOverlay__panel" role="status" aria-live="polite">' +
+          '<div class="submitOverlay__state submitOverlay__state--sending">' +
+            '<div class="submitOverlay__ring submitOverlay__ring--sending">' +
+              '<svg class="submitOverlay__svg submitOverlay__svg--sending" viewBox="0 0 120 120" aria-hidden="true">' +
+                '<circle class="submitOverlay__track" cx="60" cy="60" r="50"></circle>' +
+                '<circle class="submitOverlay__value submitOverlay__value--sending" cx="60" cy="60" r="50"></circle>' +
+              '</svg>' +
+              '<div class="submitOverlay__icon submitOverlay__icon--bike" aria-hidden="true">' +
+                '<svg viewBox="0 0 64 64" fill="none">' +
+                  '<circle cx="18" cy="46" r="10" stroke="currentColor" stroke-width="3.2"></circle>' +
+                  '<circle cx="46" cy="46" r="10" stroke="currentColor" stroke-width="3.2"></circle>' +
+                  '<path d="M18 46L27 28H36L46 46M27 28L33 46M33 46H18M33 46H46M27 28L23 22H17M36 28L42 22" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path>' +
+                '</svg>' +
+              '</div>' +
+            '</div>' +
+            '<div class="submitOverlay__dots" aria-hidden="true"><span></span><span></span><span></span></div>' +
+            '<p class="submitOverlay__text js-overlaySendingText"></p>' +
+          '</div>' +
+          '<div class="submitOverlay__state submitOverlay__state--success">' +
+            '<div class="submitOverlay__ring submitOverlay__ring--success">' +
+              '<svg class="submitOverlay__svg submitOverlay__svg--success" viewBox="0 0 120 120" aria-hidden="true">' +
+                '<circle class="submitOverlay__track submitOverlay__track--success" cx="60" cy="60" r="50"></circle>' +
+                '<circle class="submitOverlay__value submitOverlay__value--success" cx="60" cy="60" r="50"></circle>' +
+                '<path class="submitOverlay__check" d="M34 61L52 78L86 44"></path>' +
+              '</svg>' +
+            '</div>' +
+            '<p class="submitOverlay__text js-overlaySuccessText"></p>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+    }
+
+    const sendingText = overlay.querySelector('.js-overlaySendingText');
+    const successText = overlay.querySelector('.js-overlaySuccessText');
+    if (sendingText) sendingText.textContent = hr ? 'Slanje upita...' : 'Sending inquiry...';
+    if (successText) successText.textContent = hr ? 'Upit je uspješno poslan!' : 'Inquiry sent successfully!';
+
+    return overlay;
+  }
+
+  function showSubmitOverlay(state, lang){
+    const overlay = ensureSubmitOverlay(lang);
+    if (!overlay) return;
+
+    overlay.hidden = false;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.dataset.state = state;
+
+    if (state === 'success') {
+      overlay.classList.remove('play-success');
+      void overlay.offsetWidth;
+      overlay.classList.add('play-success');
+    } else {
+      overlay.classList.remove('play-success');
+    }
+
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+  }
+
+  function hideSubmitOverlay(){
+    const overlay = document.getElementById('submitOverlay');
+    if (!overlay) return;
+
+    overlay.hidden = true;
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.dataset.state = '';
+    overlay.classList.remove('play-success');
+
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+  }
+
   function isConfigured(){
     return CONFIG.APPS_SCRIPT_WEBAPP_URL && CONFIG.APPS_SCRIPT_WEBAPP_URL !== 'REPLACE_ME';
   }
@@ -218,7 +304,8 @@
 
       const startedAt = performance.now();
       if (submitBtn) submitBtn.disabled = true;
-      setStatus(status, 'info', hr ? 'Slanje poruke...' : 'Sending message...');
+      clearStatus(status);
+      showSubmitOverlay('sending', lang);
 
       try {
         const res = await fetch(CONFIG.APPS_SCRIPT_WEBAPP_URL, {
@@ -242,10 +329,10 @@
 
         await waitMinimum(startedAt, 2000);
 
-        setStatus(status, 'success', hr
-          ? 'Poruka je uspješno poslana. Javit ćemo vam se u najkraćem mogućem roku.'
-          : 'Message sent successfully. We will get back to you as soon as possible.'
-        );
+        showSubmitOverlay('success', lang);
+        await delay(1800);
+        hideSubmitOverlay();
+        clearStatus(status);
 
         form.reset();
         clearFieldInvalid(form);
@@ -257,6 +344,7 @@
       } catch (err) {
         console.error('Contact form error:', err);
         await waitMinimum(startedAt, 2000);
+        hideSubmitOverlay();
         setStatus(status, 'error', hr
           ? 'Došlo je do problema pri slanju. Pokušajte ponovno ili nas nazovite.'
           : 'There was a problem sending the message. Please try again or give us a call.'
@@ -320,6 +408,7 @@
 
   document.addEventListener('DOMContentLoaded', ()=>{
     const lang = document.documentElement.lang || document.body.dataset.lang || 'en';
+    ensureSubmitOverlay(lang);
     initOtherModal(lang);
     initContactForm(lang);
     try{ renderRecaptcha(); }catch(e){}
