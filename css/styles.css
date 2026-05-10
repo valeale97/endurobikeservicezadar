@@ -749,18 +749,7 @@ Contact layout + form styling for current markup
 }
 
 
-/* .form__row{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:.8rem}
-.form__status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
-.form-status{margin-top:.8rem;padding:.8rem;border-radius:14px;border:1px solid var(--line)}
-.form-status.success{
-  border-color:rgba(34,197,94,.45);
-  color:var(--ok);
-  background:rgba(34,197,94,.08);
-}
-.form-status.error{border-color:rgba(255,91,91,.35);color:var(--danger)}
-.form-status.info{border-color:rgba(181,18,36,.28);color:var(--text)}
-.form-status.warn{border-color:rgba(255,204,91,.28);color:var(--text)}
-.fineprint{color:var(--muted);font-size:.9rem;margin:.8rem 0 0} */
+
 
 .form__row{
   display:flex;
@@ -2236,5 +2225,35 @@ main.wrap {
 
   .mapFallback .btn{
     min-width:min(100%, 210px);
+  }
+}
+
+
+/* Mobile contact form text size refinements */
+@media (max-width: 768px){
+  #contact .section__desc,
+  #contact .muted,
+  #contact .field,
+  #contact label,
+  #contact input,
+  #contact select{
+    font-size:clamp(13.5px, 3.7vw, 15.5px) !important;
+    line-height:1.5 !important;
+  }
+
+  /* Contact intro paragraph slightly more readable like About text */
+  #contact .muted{
+    line-height:1.65 !important;
+  }
+
+  /* Only message/problem description textbox */
+  #contact textarea{
+    font-size:13px !important;
+    line-height:1.4 !important;
+  }
+
+  #contact textarea::placeholder{
+    font-size:13px !important;
+    line-height:1.4 !important;
   }
 }
