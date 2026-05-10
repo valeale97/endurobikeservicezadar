@@ -146,7 +146,29 @@ export default {
           from: 'Enduro Bike Service <noreply@enduro-bike-service.com>',
           to: ['endurobikeservice@gmail.com'],
           reply_to: email || undefined,
-          subject: `New Enduro Bike Service contact – ${subjectName} – ${now}`,
+
+          subject: `🔴 NOVI UPIT ZA SERVIS – ${subjectName} – ${now}`,
+
+          headers: {
+            'X-Priority': '1',
+            'X-MSMail-Priority': 'High',
+            'Importance': 'High'
+          },
+
+          text: `
+        NOVI UPIT ZA SERVIS
+
+        Ime: ${fullName || 'Not provided'}
+        Email: ${email || 'Not provided'}
+        Telefon: ${phone || 'Not provided'}
+        Država: ${country || 'Not provided'}
+        Upit: ${inquiry || 'Not provided'}
+        Detalji: ${otherDetails || '—'}
+
+        Poruka:
+        ${message || ''}
+        `,
+
           html: `
             <h2>New contact form submission</h2>
 
